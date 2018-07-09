@@ -115,5 +115,9 @@ class FastExcel
                 $reader_or_writer->setShouldAddBOM($this->csv_configuration['bom']);
             }
         }
+        if ($reader_or_writer instanceof EXCELReader)
+        {
+            $reader_or_writer->setShouldFormatDates(true);
+        }
     }
 }
