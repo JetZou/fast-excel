@@ -91,8 +91,11 @@ trait Exportable
             // Add header row.
             if ($this->with_header) {
                 $first_row = $this->data->first();
-                $keys = array_keys(is_array($first_row) ? $first_row : $first_row->toArray());
-                $writer->addRow($keys);
+                if ($first_row)
+                {
+                    $keys = array_keys(is_array($first_row) ? $first_row : $first_row->toArray());
+                    $writer->addRow($keys);
+                }
             }
             $writer->addRows($this->data->toArray());
         }
