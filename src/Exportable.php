@@ -89,15 +89,23 @@ trait Exportable
             // Prepare collection (i.e remove non-string)
             $this->prepareCollection();
             // Add header row.
-            if ($this->with_header) {
-                $first_row = $this->data->first();
-                if ($first_row)
-                {
-                    $keys = array_keys(is_array($first_row) ? $first_row : $first_row->toArray());
-                    $writer->addRow($keys);
+            if ($this->data->isNotEmpty())
+            {
+                if ($this->with_header) {
+                    $first_row = $this->data->first();
+                    if ($first_row)
+                    {
+                        $keys = array_keys(is_array($first_row) ? $first_row : $first_row->toArray());
+                        $writer->addRow($keys);
+                    }
                 }
+                $writer->addRows($this->data->toArray());
             }
-            $writer->addRows($this->data->toArray());
+            else
+            {
+                //空数据填充
+                $writer->addRows([['']]);
+            }
         }
         $writer->close();
     }
